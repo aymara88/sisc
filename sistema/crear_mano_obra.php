@@ -164,7 +164,7 @@ include "includes/header.php";
 
             <div class="divisor_resp">
                 <label for="costo">Costo</label>
-                <input type="text" name="costo" id="costo" required maxlength="20"
+                <input type="text" name="costo" id="costo" required maxlength="8"
                        pattern='^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$'
                        title="Introduzca el precio del producto. Solo numeros." <?php if (isset($code) && $code == 3) {
                     echo "autofocus";
