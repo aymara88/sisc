@@ -15,8 +15,9 @@ require_once "includes/verifica_sesion.php";
     $query_delete = mysqli_query($conection,"UPDATE mano_obra SET estatus=0 WHERE codigo_mano_obra='$id_mano_obra'");  
 
   	if ($query_delete) {
-  		echo "Mano de obra eliminada correctamente";
-  	}else{
+  		//echo "Mano de obra eliminada correctamente";
+        header("location: mano_obra.php");
+    }else{
   		echo "Error al eliminar mano de obra";
   	}
   }

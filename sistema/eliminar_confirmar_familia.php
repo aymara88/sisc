@@ -16,7 +16,8 @@ require_once "includes/verifica_sesion.php";
     $query_delete = mysqli_query($conection,"UPDATE familias SET estatus=0 WHERE id_familia='$id_familia'");  
 
   	if ($query_delete) {
-  		echo "Familia Eliminada Correctamente";
+  		//echo "Familia Eliminada Correctamente";
+        header("location: familias.php");
   	}else{
   		echo "Error al eliminar familia";
   	}

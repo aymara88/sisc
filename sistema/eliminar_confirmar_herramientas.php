@@ -15,8 +15,9 @@ require_once "includes/verifica_sesion.php";
     $query_delete = mysqli_query($conection,"UPDATE herramientas SET estatus=0 WHERE codigo_herramienta='$id_herramientas'");  
 
   	if ($query_delete) {
-  		echo "Herramienta eliminada correctamente";
-  	}else{
+  		//echo "Herramienta eliminada correctamente";
+        header("location: herramientas.php");
+    }else{
   		echo "Error al eliminar herramientas";
   	}
   }

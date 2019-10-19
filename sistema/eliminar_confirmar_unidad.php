@@ -13,8 +13,9 @@ require_once "includes/verifica_sesion.php";
     $query_delete = mysqli_query($conection,"UPDATE unidades SET estatus=0 WHERE id_unidad='$id_unidad'");  
 
   	if ($query_delete) {
-  		echo "Unidad eliminada correctamente";
-  	}else{
+  		//echo "Unidad eliminada correctamente";
+        header("location: unidades.php");
+    }else{
   		echo "Error al eliminar unidad";
   	}
   }

@@ -15,8 +15,9 @@ require_once "includes/verifica_sesion.php";
     $query_delete = mysqli_query($conection,"UPDATE maquinaria SET estatus=0 WHERE codigo_maquinaria='$id_maquinaria'");  
 
   	if ($query_delete) {
-  		echo "Maquinaria eliminada correctamente";
-  	}else{
+  		//echo "Maquinaria eliminada correctamente";
+        header("location: maquinaria.php");
+    }else{
   		echo "Error al eliminar maquinaria";
   	}
   }

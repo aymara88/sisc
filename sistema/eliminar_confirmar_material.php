@@ -16,8 +16,9 @@ require_once "includes/verifica_sesion.php";
     $query_delete = mysqli_query($conection,"UPDATE materiales SET estatus=0 WHERE codigo_material='$id_material'");  
 
   	if ($query_delete) {
-  		echo "Material eliminado correctamente";
-  	}else{
+  		//echo "Material eliminado correctamente";
+        header("location: materiales.php");
+    }else{
   		echo "Error al eliminar material";
   	}
   }

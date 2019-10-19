@@ -630,3 +630,8 @@ fieldset legend {
 	display: inline-block;
 	width: auto;
 }
+
+/*clases agregadas*/
+div#tipo_insumo_container {
+	display: none;
+}
