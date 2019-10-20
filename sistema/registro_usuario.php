@@ -20,6 +20,24 @@ if (isset($_POST['btn-signup'])) {
     $clave = trim($_POST['clave']);
     $rol = $_POST['rol'];
 
+    /*  Para el Item de Sexo*/
+    $option_sexo = '';
+    $query_sexo_by_id = mysqli_query($conection, "SELECT * FROM sexo WHERE id_sexo = '$sexo'");
+    $result_sexo_by_id = mysqli_fetch_array($query_sexo_by_id);
+    $option_sexo = '<option value="' . $sexo . '" select>' . $result_sexo_by_id['descripcion_sexo'] . '</option>';
+
+    /*  Para el Item del Cargo*/
+    $option_cargo = '';
+    $query_cargo_by_id = mysqli_query($conection, "SELECT * FROM cargos WHERE id_cargo = '$cargo'");
+    $result_cargo_by_id = mysqli_fetch_array($query_cargo_by_id);
+    $option_cargo = '<option value="' . $cargo . '" select>' . $result_cargo_by_id['descripcion_cargo'] . '</option>';
+
+    /*  Para el Item del Rol*/
+    $option_rol = '';
+    $query_rol_by_id = mysqli_query($conection, "SELECT * FROM roles WHERE id_rol = '$rol'");
+    $result_rol_by_id = mysqli_fetch_array($query_rol_by_id);
+    $option_rol = '<option value="' . $rol . '" select>' . $result_rol_by_id['descripcion_rol'] . '</option>';
+
     if (empty($nombre)) {
         $alert = "Introduzca su nombre";
         $code = 1;
@@ -91,25 +109,6 @@ if (isset($_POST['btn-signup'])) {
         if ($result > 0) {
             $alert = "El correo o el login introducidos ya se encuentran registrados";
             $code = 8;
-
-            /*  Para el Item de Sexo*/
-            $option_sexo = '';
-            $query_sexo_by_id = mysqli_query($conection, "SELECT * FROM sexo WHERE id_sexo = '$sexo'");
-            $result_sexo_by_id = mysqli_fetch_array($query_sexo_by_id);
-            $option_sexo = '<option value="' . $sexo . '" select>' . $result_sexo_by_id['descripcion_sexo'] . '</option>';
-
-            /*  Para el Item del Cargo*/
-            $option_cargo = '';
-            $query_cargo_by_id = mysqli_query($conection, "SELECT * FROM cargos WHERE id_cargo = '$cargo'");
-            $result_cargo_by_id = mysqli_fetch_array($query_cargo_by_id);
-            $option_cargo = '<option value="' . $cargo . '" select>' . $result_cargo_by_id['descripcion_cargo'] . '</option>';
-
-            /*  Para el Item del Rol*/
-            $option_rol = '';
-            $query_rol_by_id = mysqli_query($conection, "SELECT * FROM roles WHERE id_rol = '$rol'");
-            $result_rol_by_id = mysqli_fetch_array($query_rol_by_id);
-            $option_rol = '<option value="' . $rol . '" select>' . $result_rol_by_id['descripcion_rol'] . '</option>';
-
         } else {
             $clave = encriptacion::encryption($_POST['clave']);
             $clave = mysqli_real_escape_string($conection, $clave);
@@ -118,6 +117,18 @@ if (isset($_POST['btn-signup'])) {
             if ($query_insert) {
                 $alert = "Usuario creado correctamente";
                 $code = 9;
+                $login_user = '';
+                $email = '';
+                $nombre = '';
+                $apaterno = '';
+                $amaterno = '';
+                $sexo = '';
+                $cargo = '';
+                $telefono = '';
+                $rol = '';
+                $option_rol = '';
+                $option_cargo = '';
+                $option_sexo = '';
             } else {
                 $alert = "Error al dar de alta al usuario";
                 $code = 10;
@@ -204,7 +215,7 @@ include "includes/header.php";
                 $result_sexo = mysqli_num_rows($query_sexo);
                 ?>
 
-                <select name="sexo" id="sexo" class="<?php if (isset($option_sexo)) {
+                <select name="sexo" id="sexo" class="<?php if (isset($option_sexo) && !empty($option_sexo)) {
                     echo "noMostrarPrimerItem";
                 } else {
                     echo '';
@@ -228,7 +239,7 @@ include "includes/header.php";
                 $query_cargo = mysqli_query($conection, "SELECT * FROM cargos");
                 $result_cargo = mysqli_num_rows($query_cargo);
                 ?>
-                <select name="cargo" id="cargo" class="<?php if (isset($option_cargo)) {
+                <select name="cargo" id="cargo" class="<?php if (isset($option_cargo) && !empty($option_cargo)) {
                     echo "noMostrarPrimerItem";
                 } else {
                     echo '';
@@ -294,7 +305,7 @@ include "includes/header.php";
                 mysqli_close($conection);
                 $result_rol = mysqli_num_rows($query_rol);
                 ?>
-                <select name="rol" id="rol" class="<?php if (isset($option_rol)) {
+                <select name="rol" id="rol" class="<?php if (isset($option_rol) && !empty($option_rol)) {
                     echo "noMostrarPrimerItem";
                 } else {
                     echo '';
@@ -319,6 +330,83 @@ include "includes/header.php";
         </form>
     </div>
 </section>
+
+<?php
+if (isset($code) && $code == 9) {
+    ?>
+    <section id="container" style="padding: 0">
+        <br>
+        <h1><i class="fas fa-id-card fa-lg"></i> Lista de Usuarios</h1>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Nombre(s)</th>
+                <th>Apellido Paterno</th>
+                <th>Apellido Materno</th>
+                <th>Sexo</th>
+                <th>Cargo</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>Login</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+
+            <?php
+
+            include "conexion.php";
+            $por_pagina = 8;
+            if (empty($_GET['pagina'])) {
+                $pagina = 1;
+            } else {
+                $pagina = $_GET['pagina'];
+            }
+            $desde = ($pagina - 1) * $por_pagina;
+
+            $query = mysqli_query($conection, "SELECT u.id_usuario,u.nombre_usuario,u.apellido_pater_usuario,u.apellido_mater_usuario, s.descripcion_sexo,c.descripcion_cargo, u.telefono_celular, u.email, u.login_usuario, r.descripcion_rol FROM usuarios u INNER JOIN sexo s ON s.id_sexo = u.id_sexo INNER JOIN cargos c ON c.id_cargo = u.id_cargo INNER JOIN roles r ON r.id_rol = u.id_rol WHERE u.estatus = 1 ORDER BY u.id_usuario DESC LIMIT $desde,$por_pagina");
+            //mysqli_close($conection);
+            $result = mysqli_num_rows($query);
+
+            if ($result > 0) {
+                while ($data = mysqli_fetch_array($query)) {
+                    ?>
+                    <tr>
+                        <td><?php echo $data["id_usuario"]; ?></td>
+                        <td><?php echo $data["nombre_usuario"]; ?></td>
+                        <td><?php echo $data["apellido_pater_usuario"]; ?></td>
+                        <td><?php echo $data["apellido_mater_usuario"]; ?></td>
+                        <td><?php echo $data["descripcion_sexo"]; ?></td>
+                        <td><?php echo $data["descripcion_cargo"]; ?></td>
+                        <td><?php echo $data["telefono_celular"]; ?></td>
+                        <td><?php echo $data["email"]; ?></td>
+                        <td><?php echo $data["login_usuario"]; ?></td>
+                        <td><?php echo $data["descripcion_rol"]; ?></td>
+                        <td>
+                            <a class="link_edit" style="display:block;padding: 5px 0px 0px 5px;font-size: 11px;"
+                               href="editar_usuario.php?id=<?php echo $data["id_usuario"]; ?>"><i
+                                        class="fas fa-user-edit"></i>&nbsp;Editar</a>
+                            <?php if ($data["id_usuario"] != 1) { ?>
+                                <a class="link_eliminar" style="display:block;padding: 5px 0px 0px 5px;font-size: 11px;"
+                                   href="eliminar_confirmar_usuario.php?id=<?php echo $data["id_usuario"]; ?>"><i
+                                            class="fas fa-trash"></i>&nbsp;Eliminar</a>
+                            <?php } ?>
+                        </td>
+                    </tr>
+                    <?php
+                }
+            }
+            ?>
+        </table>
+
+        <div class="paginador">
+            <ul>
+                <li><a href="lista_usuarios.php" title="Volver al Listado de Usuarios"><i class="fas fa-hand-point-left"></i></a></li>
+            </ul>
+        </div>
+
+    </section>
+<?php } ?>
 <?php include "includes/footer.php"; ?>
 </body>
 </html>

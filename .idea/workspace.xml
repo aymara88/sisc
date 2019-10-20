@@ -2,17 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2eac92a6-6b3d-4570-9997-d19db6e145a4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/sistema/buscar_material_filtros.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constructora.sql" beforeDir="false" afterPath="$PROJECT_DIR$/constructora.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constructora1810.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sistema/crear_herramientas.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/crear_herramientas.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sistema/crear_mano_obra.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/crear_mano_obra.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sistema/crear_maquinaria.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/crear_maquinaria.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sistema/crear_material.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/crear_material.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sistema/editar_herramientas.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/editar_herramientas.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sistema/editar_mano_obra.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/editar_mano_obra.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sistema/editar_maquinaria.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/editar_maquinaria.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sistema/editar_material.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/editar_material.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistema/buscar_unidad.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/buscar_unidad.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistema/crear_proyecto.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/crear_proyecto.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistema/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistema/lista_usuarios.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/lista_usuarios.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistema/materiales.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/materiales.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistema/registro_usuario.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/registro_usuario.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -65,7 +62,8 @@
       <option name="presentableId" value="Default" />
       <updated>1571348247199</updated>
       <workItem from="1571348248671" duration="24341000" />
-      <workItem from="1571412815738" duration="28662000" />
+      <workItem from="1571412815738" duration="29279000" />
+      <workItem from="1571505693624" duration="22743000" />
     </task>
     <servers />
   </component>
@@ -77,7 +75,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

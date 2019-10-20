@@ -29,10 +29,7 @@ require_once "includes/verifica_sesion.php";
 		    <button type="submit" class="btn_search"><i class="fas fa-search fa-lg"></i></button>
 		</form>
 		
-  
-
-		
-		<table>
+  		<table>
 			<tr>
 				<th>ID</th>
 				<th>Nombre(s)</th>
