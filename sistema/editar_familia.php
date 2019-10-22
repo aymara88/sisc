@@ -72,9 +72,9 @@ if ($result > 0) {
             <form action="" method="post" name="miForm">
                 <div class="divisor_resp">
                     <label for="familia">Familia</label>
-                    <input type="text" name="familia" id="familia" value="<?php echo $familia ?>" maxlength="100"
-                           required pattern="{2,100}"
-                           title="Introduzca sólo letras o números. Tamaño mínimo: 2. Tamaño máximo: 100"
+                    <input type="text" name="familia" id="familia" value="<?php echo $familia ?>" maxlength="50"
+                           required pattern="[A-Za-z ñÑ À-ú]{5,50}"
+                           title="Introduzca sólo letras. Tamaño mínimo: 5. Tamaño máximo: 50"
                            onchange="javascript:this.value=this.value.toUpperCase();" <?php if (isset($code) && $code == 1) {
                         echo "autofocus";
                     } ?> />
@@ -82,8 +82,8 @@ if ($result > 0) {
                 <div class="divisor_resp">
                     <label for="descripcion">Descripción</label>
                     <input type="text" name="descripcion" id="descripcion" value="<?php echo $descripcion ?>"
-                           maxlength="100" required pattern="{2,100}"
-                           title="Introduzca sólo letras o números. Tamaño mínimo: 2. Tamaño máximo: 100"
+                           maxlength="80" required pattern="[A-Za-z ñÑ À-ú]{5,80}"
+                           title="Introduzca sólo letras. Tamaño mínimo: 5. Tamaño máximo: 80"
                            onchange="javascript:this.value=this.value.toUpperCase();" <?php if (isset($code) && $code == 2) {
                         echo "autofocus";
                     } ?> />

@@ -96,7 +96,7 @@ if ($result > 0) {
                 <div class="divisor_resp">
                     <label for="unidad">Abreviatura Unidad</label>
                     <input type="text" name="unidad" id="unidad" value="<?php echo $unidad ?>" maxlength="25" required
-                           pattern="{1,25}"
+                           pattern="[A-Za-z0-9 ñÑ À-ú % /]{1,25}"
                            title="Tamaño mínimo: 1. Tamaño máximo: 25."
                            onchange="javascript:this.value=this.value.toUpperCase();" <?php if (isset($code) && $code == 1) {
                         echo "autofocus";
@@ -106,7 +106,8 @@ if ($result > 0) {
                 <div class="divisor_resp">
                     <label for="descripcion">Descripción</label>
                     <input type="text" name="descripcion" id="descripcion" value="<?php echo $descripcion ?>"
-                           maxlength="100" required pattern="{1,100}" title="Tamaño mínimo: 1. Tamaño máximo: 100."
+                           maxlength="100" required pattern="[A-Za-z ñÑ À-ú]{2,100}"
+                           title="Tamaño mínimo: 2. Tamaño máximo: 100."
                            onchange="javascript:this.value=this.value.toUpperCase();" <?php if (isset($code) && $code == 2) {
                         echo "autofocus";
                     } ?> />

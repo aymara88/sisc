@@ -36,6 +36,10 @@ if (isset($_POST['btn-signup'])) {
                 $alert = "Familia creada correctamente!";
                 $code = 4;
 
+                //vaciar formulario
+                $familia = "";
+                $descripcion = "";
+
             } else {
                 $alert = "Error al crear familia!";
                 $code = 5;
@@ -72,8 +76,8 @@ include "includes/header.php";
         <form action="" method="post" name="miForm">
             <div class="divisor_resp">
                 <label for="familia">Familia</label>
-                <input type="text" name="familia" id="familia" maxlength="100" required pattern="[A-Za-z0-9]{2,100}"
-                       title="Introduzca sólo letras o números. Tamaño mínimo: 2. Tamaño máximo: 100"
+                <input type="text" name="familia" id="familia" maxlength="50" required pattern="[A-Za-z ñÑ À-ú]{5,50}"
+                       title="Introduzca sólo letras. Tamaño mínimo: 5. Tamaño máximo: 50"
                        onchange="javascript:this.value=this.value.toUpperCase();" <?php if (isset($code) && $code == 1) {
                     echo "autofocus";
                 } ?> value="<?php if (isset($familia) && isset($code) && $code !== 1 && $code !== 3) {
@@ -84,9 +88,9 @@ include "includes/header.php";
             </div>
             <div class="divisor_resp">
                 <label for="descripcion">Descripción</label>
-                <input type="text" name="descripcion" id="descripcion" maxlength="100" required
-                       pattern="[A-Za-z0-9]{2,100}"
-                       title="Introduzca sólo letras o números. Tamaño mínimo: 2. Tamaño máximo: 100"
+                <input type="text" name="descripcion" id="descripcion" maxlength="80" required
+                       pattern="[A-Za-z ñÑ À-ú]{5,80}"
+                       title="Introduzca sólo letras. Tamaño mínimo: 5. Tamaño máximo: 80"
                        onchange="javascript:this.value=this.value.toUpperCase();" <?php if (isset($code) && $code == 2) {
                     echo "autofocus";
                 } ?> value="<?php if (isset($descripcion) && isset($code) && $code !== 2) {
@@ -102,6 +106,70 @@ include "includes/header.php";
     </div>
 
 </section>
+
+<?php
+if (isset($code) && $code == 4) {
+    ?>
+    <section id="container" style="padding: 0">
+        <br>
+        <h1><i class="fas fa-id-card fa-lg"></i> Lista de Familias</h1>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Familia</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+            </tr>
+
+            <?php
+
+            include "conexion.php";
+            $por_pagina = 10;
+            if (empty($_GET['pagina'])) {
+                $pagina = 1;
+            } else {
+                $pagina = $_GET['pagina'];
+            }
+            $desde = ($pagina - 1) * $por_pagina;
+            $query = mysqli_query($conection, "SELECT * FROM familias
+													WHERE estatus=1
+													ORDER BY id_familia DESC LIMIT $desde,$por_pagina
+									");
+            //mysqli_close($conection);
+            $result = mysqli_num_rows($query);
+
+            if ($result > 0) {
+                while ($data = mysqli_fetch_array($query)) {
+                    ?>
+                    <tr>
+                        <td><?php echo $data["id_familia"]; ?></td>
+                        <td><?php echo $data["familia"]; ?></td>
+                        <td><?php echo $data["descripcion"]; ?></td>
+                        <td>
+                            <a class="link_edit" href="editar_familia.php?id=<?php echo (int)$data["id_familia"]; ?>"><i
+                                        class="fas fa-user-edit"></i> Editar</a>
+                            |
+                            <a class="link_eliminar"
+                               href="eliminar_confirmar_familia.php?id=<?php echo (int)$data["id_familia"]; ?>"><i
+                                        class="fas fa-trash"></i> Eliminar</a>
+                        </td>
+                    </tr>
+                    <?php
+                }
+            }
+            ?>
+        </table>
+        <div class="paginador">
+            <ul>
+                <li><a href="familias.php" title="Volver al Listado de Familias"><i
+                                class="fas fa-hand-point-left"></i></a></li>
+            </ul>
+        </div>
+
+    </section>
+<?php } ?>
+
 <?php include "includes/footer.php"; ?>
 </body>
 </html>

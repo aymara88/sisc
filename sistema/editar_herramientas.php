@@ -152,8 +152,9 @@ if ($resultm > 0) {
 
                 <div class="divisor_resp">
                     <label for="costo">Costo</label>
-                    <input type="text" name="costo" id="costo" required maxlength="8"
-                           pattern='^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$'
+                    <input type="number" name="costo" id="costo" required maxlength="9"
+                           step="0.01" min="0" pattern="^\d+(?:\.\d{1,2})?$"
+                           oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                            title="Introduzca el precio del producto. Solo numeros."
                            value="<?php echo $resultm['costo_herramienta'] ?>"
                         <?php if (isset($code) && $code == 3) {

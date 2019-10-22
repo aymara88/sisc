@@ -76,6 +76,16 @@ if (isset($_POST['btn-signup'])) {
             if ($query_insert) {
                 $alert = "Material creado correctamente!";
                 $code = 9;
+                //vaciar formulario
+                $option_unidad = "";
+                $option_proveedor = "";
+                $option_familia = "";
+                $material = "";
+                $descripcion = "";
+                $unidad = "";
+                $familia = "";
+                $proveedor = "";
+                $costo = "";
             } else {
                 $alert = "Error al crear material!";
                 $code = 10;
@@ -154,7 +164,7 @@ include "includes/header.php";
 
             <div class="divisor_resp">
                 <label for="unidad">Unidad</label>
-                <select name="unidad" id="unidad" class="<?php if (isset($option_unidad))
+                <select name="unidad" id="unidad" class="<?php if (isset($option_unidad) && !empty($option_unidad))
                     echo "noMostrarPrimerItem" ?>">
                     <?php
                     echo $option_unidad;
@@ -176,7 +186,7 @@ include "includes/header.php";
 
             <div class="divisor_resp">
                 <label for="familia">Familia</label>
-                <select name="familia" id="familia" class="<?php if (isset($option_familia))
+                <select name="familia" id="familia" class="<?php if (isset($option_familia) && !empty($option_familia))
                     echo "noMostrarPrimerItem" ?>">
                     <?php
                     echo $option_familia;
@@ -198,8 +208,9 @@ include "includes/header.php";
 
             <div class="divisor_resp">
                 <label for="proveedor">Proveedor</label>
-                <select name="proveedor" id="proveedor" class="<?php if (isset($option_proveedor))
-                    echo "noMostrarPrimerItem" ?>">
+                <select name="proveedor" id="proveedor"
+                        class="<?php if (isset($option_proveedor) && !empty($option_proveedor))
+                            echo "noMostrarPrimerItem" ?>">
                     <?php
                     echo $option_proveedor;
                     $query_p = mysqli_query($conection, "SELECT id_proveedor, razon_social FROM proveedores WHERE 1=1 ORDER BY id_proveedor ASC");
@@ -220,11 +231,13 @@ include "includes/header.php";
 
             <div class="divisor_resp">
                 <label for="costo">Costo</label>
-                <input type="text" name="costo" id="costo" required maxlength="8"
-                       pattern='^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$'
-                       title="Introduzca el precio del producto. Solo numeros." <?php if (isset($code) && $code == 3) {
-                    echo "autofocus";
-                } ?> value="<?php if (isset($costo) && isset($code) && $code !== 3) echo $costo ?>"/>
+                <input type="number" name="costo" id="costo" required maxlength="9"
+                       step="0.01" min="0" pattern="^\d+(?:\.\d{1,2})?$"
+                       oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                       title="Introduzca el precio del producto. Solo numeros."
+                    <?php if (isset($code) && $code == 3) {
+                        echo "autofocus";
+                    } ?> value="<?php if (isset($costo) && isset($code) && $code !== 3) echo $costo ?>"/>
             </div>
 
             <div class="divisor_resp"></div>
@@ -234,6 +247,86 @@ include "includes/header.php";
     </div>
 
 </section>
+<?php
+if (isset($code) && $code == 9) {
+    ?>
+    <section id="container" style="padding: 0">
+        <br>
+        <h1><i class="fas fa-id-card fa-lg"></i> Lista de Materiales</h1>
+
+        <table>
+            <tr>
+                <th>Código</th>
+                <th width="280">Descripción</th>
+                <th>Unidad</th>
+                <th>Familia</th>
+                <th>Costo</th>
+                <th>Proveedor</th>
+                <th>Acciones</th>
+            </tr>
+
+            <?php
+
+            include "conexion.php";
+            $por_pagina = 8;
+            if (empty($_GET['pagina'])) {
+                $pagina = 1;
+            } else {
+                $pagina = $_GET['pagina'];
+            }
+            $desde = ($pagina - 1) * $por_pagina;
+
+            $query = mysqli_query($conection, "SELECT m.*, u.descripcion, ti.descripcion_tipo_insumo, f.familia, p.razon_social
+				FROM materiales m
+					LEFT JOIN unidades u
+					ON (u.id_unidad=m.id_unidad)
+					LEFT JOIN tipoinsumo ti
+					ON (m.id_tipo_insumo=ti.id_tipo_insumo)
+					LEFT JOIN familias f
+					ON (m.id_familia=f.id_familia)
+					LEFT JOIN proveedores p
+					ON (m.id_proveedor=p.id_proveedor)
+				WHERE m.estatus=1
+				ORDER BY codigo_material DESC LIMIT $desde,$por_pagina");
+            //mysqli_close($conection);
+            $result = mysqli_num_rows($query);
+
+            if ($result > 0) {
+                while ($data = mysqli_fetch_array($query)) {
+                    $data["codigo_material"] = htmlspecialchars($data["codigo_material"]);
+                    ?>
+                    <tr>
+                        <td><?php echo $data["codigo_material"]; ?></td>
+                        <td><?php echo $data["descripcion_material"]; ?></td>
+                        <td><?php echo $data["descripcion"]; ?></td>
+                        <td><?php echo $data["familia"]; ?></td>
+                        <td><?php echo "$" . number_format($data["costo_material"], 2, ".", ","); ?></td>
+                        <td><?php echo $data["razon_social"]; ?></td>
+                        <td>
+                            <a class="link_edit"
+                               href="editar_material.php?id=<?php echo $data["codigo_material"]; ?>"><i
+                                        class="fas fa-user-edit"></i> Editar</a>
+                            |
+                            <a class="link_eliminar"
+                               href="eliminar_confirmar_material.php?id=<?php echo $data["codigo_material"]; ?>"><i
+                                        class="fas fa-trash"></i> Eliminar</a>
+                        </td>
+                    </tr>
+                    <?php
+                }
+            }
+            ?>
+        </table>
+        <div class="paginador">
+            <ul>
+                <li><a href="materiales.php" title="Volver al Listado de Materiales"><i
+                                class="fas fa-hand-point-left"></i></a></li>
+            </ul>
+        </div>
+
+    </section>
+<?php } ?>
+
 <?php include "includes/footer.php"; ?>
 </body>
 </html>

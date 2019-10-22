@@ -148,6 +148,22 @@ if (isset($_POST['btn-signup'])) {
             if ($query_insertar) {
                 $alert = "Los datos del Cliente se dieron de alta correctamente!";
                 $code = 13;
+                //vaciar formulario
+                $option_tipo_persona = "";
+                $option_municipio = "";
+                $option_estado = "";
+                $option_localidad = "";
+                $nombre = "";
+                $tipo_persona = "";
+                $rfc = "";
+                $id_localidad = "";
+                $colonia = "";
+                $calle = "";
+                $numero = "";
+                $cp = "";
+                $telefono = "";
+                $email = "";
+
             } else {
                 $alert = "Error al dar de alta el Cliente.!";
                 $code = 14;
@@ -269,7 +285,7 @@ include "includes/header.php";
                 $query_tipo_persona = mysqli_query($conection, "SELECT * FROM tipo_persona");
                 $result_tipo_persona = mysqli_num_rows($query_tipo_persona);
                 ?>
-                <select name="tipo_persona" id="tipo_persona" class="<?php if (isset($option_tipo_persona)) {
+                <select name="tipo_persona" id="tipo_persona" class="<?php if (isset($option_tipo_persona) && !empty($option_tipo_persona)) {
                     echo "noMostrarPrimerItem";
                 } else {
                     echo '';
@@ -459,6 +475,84 @@ include "includes/header.php";
         </form>
     </div>
 </section>
+
+<?php
+if (isset($code) && $code == 13) {
+    ?>
+    <section id="container" style="padding: 0">
+        <br>
+        <h1><i class="fas fa-id-card fa-lg"></i> Lista de Clientes</h1>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Nombre(s)</th>
+                <th>Tipo Persona</th>
+                <th>RFC Cliente</th>
+                <th>Domicilio</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>Acciones</th>
+            </tr>
+
+            <?php
+
+            include "conexion.php";
+            $por_pagina = 8;
+
+            if (empty($_GET['pagina'])) {
+                $pagina = 1;
+            } else {
+                $pagina = $_GET['pagina'];
+            }
+            $desde = ($pagina - 1) * $por_pagina;
+
+            $query = mysqli_query($conection, "SELECT c.id_cliente, c.nombre_cliente, t.id_tipo_persona, t.tipo_persona, c.rfc_cliente, e.id_estado, e.nombre_estado, m.id_municipio, m.nombre_municipio, l.id_localidad, l.nombre_localidad, c.colonia, c.calle, c.numero, c.cp, c.telefono, c.email 
+					FROM clientes c INNER JOIN tipo_persona t ON t.id_tipo_persona = c.id_tipo_persona
+					                INNER JOIN localidades l ON l.id_localidad = c.id_localidad
+					                INNER JOIN municipios m ON m.id_municipio = l.id_municipio
+					                INNER JOIN estados e ON e.id_estado = m.id_estado
+					WHERE c.estatus = 1 ORDER BY c.id_cliente DESC LIMIT $desde,$por_pagina");
+            //mysqli_close($conection);
+            $result = mysqli_num_rows($query);
+
+            if ($result > 0) {
+                while ($data = mysqli_fetch_array($query)) {
+                    $domicilio = $data["calle"] . ' ' . $data["numero"] . ', ' . $data["colonia"] . ', ' . strtoupper($data["nombre_localidad"]) . ', ' . strtoupper($data["nombre_municipio"]) . ', ' . strtoupper($data["nombre_estado"]);
+                    ?>
+                    <tr>
+                        <td><?php echo $data["id_cliente"]; ?></td>
+                        <td><?php echo $data["nombre_cliente"]; ?></td>
+                        <td><?php echo $data["tipo_persona"]; ?></td>
+                        <td><?php echo $data["rfc_cliente"]; ?></td>
+                        <td><?php echo $domicilio; ?></td>
+                        <td><?php echo $data["telefono"]; ?></td>
+                        <td><?php echo $data["email"]; ?></td>
+
+                        <td>
+                            <a class="link_edit" style="display:block;padding: 5px 0px 0px 5px;font-size: 11px;"
+                               href="editar_cliente.php?id=<?php echo $data["id_cliente"]; ?>"><i
+                                        class="fas fa-user-edit"></i> Editar</a>
+                            <a class="link_eliminar" style="display:block;padding: 5px 0px 0px 5px;font-size: 11px;"
+                               href="eliminar_confirmar_cliente.php?id=<?php echo $data["id_cliente"]; ?>"><i
+                                        class="fas fa-trash"></i> Eliminar</a>
+                        </td>
+                    </tr>
+                    <?php
+                }
+            }
+            ?>
+        </table>
+        <div class="paginador">
+            <ul>
+                <li><a href="lista_clientes.php" title="Volver al Listado de Clientes"><i
+                                class="fas fa-hand-point-left"></i></a></li>
+            </ul>
+        </div>
+
+    </section>
+<?php } ?>
+
 <?php include "includes/footer.php"; ?>
 </body>
 </html>

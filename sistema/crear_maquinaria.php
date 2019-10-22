@@ -17,6 +17,13 @@ if (isset($_POST['btn-signup'])) {
     $unidad = (int)$_POST['unidad'];
     $costo = (float)$_POST['costo'];
 
+    /*  Para el Item de Unidad*/
+    $option_unidad = '';
+    $query_unidad_by_id = mysqli_query($conection, "SELECT * FROM unidades WHERE id_unidad = '$unidad'");
+    $result_unidad_by_id = mysqli_fetch_array($query_unidad_by_id);
+    $option_unidad = '<option value="' . $unidad . '" select>' . $result_unidad_by_id['descripcion'] . '</option>';
+
+
     if (empty($maquinaria)) {
         $alert = "Introduce el código!";
         $code = 1;
@@ -45,11 +52,15 @@ if (isset($_POST['btn-signup'])) {
             $code = 8;
         } else {
             $query_insert = mysqli_query($conection, "INSERT INTO maquinaria(codigo_maquinaria, descripcion_maquinaria, id_tipo_insumo, id_unidad, costo_maquinaria) VALUES('$maquinaria','$descripcion','$tipo_insumo', '$unidad', '$costo')");
-
             if ($query_insert) {
                 $alert = "maquinaria creada correctamente!";
                 $code = 9;
-
+                //vaciar formulario
+                $unidad = "";
+                $maquinaria = "";
+                $descripcion = "";
+                $costo = "";
+                $option_unidad = "";
             } else {
                 $alert = "Error al crear maquinaria!";
                 $code = 10;
@@ -130,8 +141,10 @@ include "includes/header.php";
 
             <div class="divisor_resp">
                 <label for="unidad">Unidad</label>
-                <select name="unidad" id="unidad">
+                <select name="unidad" id="unidad"
+                        class="<?php if (isset($option_unidad) && !empty($option_unidad)) echo "noMostrarPrimerItem" ?>">
                     <?php
+                    echo $option_unidad;
                     $query_u = mysqli_query($conection, "SELECT * FROM unidades WHERE tipo_insumo = 3 ORDER BY id_unidad ASC");
                     $result_unum = mysqli_num_rows($query_u);
                     if ($result_num > 0) {
@@ -155,11 +168,13 @@ include "includes/header.php";
 
             <div class="divisor_resp">
                 <label for="costo">Costo</label>
-                <input type="text" name="costo" id="costo" required maxlength="8"
-                       pattern='^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$'
-                       title="Introduzca el precio del producto. Solo numeros." <?php if (isset($code) && $code == 3) {
-                    echo "autofocus";
-                } ?> value="<?php if (isset($costo) && isset($code) && $code !== 3) echo $costo ?>"/>
+                <input type="number" name="costo" id="costo" required maxlength="9"
+                       step="0.01" min="0" pattern="^\d+(?:\.\d{1,2})?$"
+                       oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                       title="Introduzca el precio del producto. Solo numeros."
+                    <?php if (isset($code) && $code == 3) {
+                        echo "autofocus";
+                    } ?> value="<?php if (isset($costo) && isset($code) && $code !== 3) echo $costo ?>"/>
             </div>
             <div class="divisor_resp"></div>
             <button type="submit" name="btn-signup" class="btn_save"><i class="fas fa-plus-circle"></i> Crear maquinaria
@@ -168,6 +183,78 @@ include "includes/header.php";
     </div>
 
 </section>
+<?php
+if (isset($code) && $code == 9) {
+    ?>
+    <section id="container" style="padding: 0">
+        <br>
+        <h1><i class="fas fa-id-card fa-lg"></i> Lista de Maquinaria</h1>
+
+        <table>
+            <tr>
+                <th>Código</th>
+                <th>Descripción</th>
+                <th>Unidad</th>
+                <th>Costo</th>
+                <th>Acciones</th>
+            </tr>
+
+            <?php
+            include "conexion.php";
+            $por_pagina = 8;
+            if (empty($_GET['pagina'])) {
+                $pagina = 1;
+            } else {
+                $pagina = $_GET['pagina'];
+            }
+            $desde = ($pagina - 1) * $por_pagina;
+            $query = mysqli_query($conection, "SELECT m.*, u.descripcion, ti.descripcion_tipo_insumo
+				FROM maquinaria m
+					LEFT JOIN unidades u
+					ON (u.id_unidad=m.id_unidad)
+					LEFT JOIN tipoinsumo ti
+					ON (m.id_tipo_insumo=ti.id_tipo_insumo)
+				WHERE m.estatus=1
+				ORDER BY codigo_maquinaria DESC LIMIT $desde,$por_pagina");
+
+            //mysqli_close($conection);
+            $result = mysqli_num_rows($query);
+
+            if ($result > 0) {
+                while ($data = mysqli_fetch_array($query)) {
+                    $data["codigo_maquinaria"] = htmlspecialchars($data["codigo_maquinaria"]);
+                    ?>
+                    <tr>
+                        <td><?php echo $data["codigo_maquinaria"]; ?></td>
+                        <td><?php echo $data["descripcion_maquinaria"]; ?></td>
+                        <td><?php echo $data["descripcion"]; ?></td>
+                        <td><?php echo "$" . number_format($data["costo_maquinaria"], 2, ".", ","); ?></td>
+                        <td>
+                            <a class="link_edit"
+                               href="editar_maquinaria.php?id=<?php echo $data["codigo_maquinaria"]; ?>"><i
+                                        class="fas fa-user-edit"></i> Editar</a>
+                            |
+                            <a class="link_eliminar"
+                               href="eliminar_confirmar_maquinaria.php?id=<?php echo $data["codigo_maquinaria"]; ?>"><i
+                                        class="fas fa-trash"></i> Eliminar</a>
+                        </td>
+                    </tr>
+                    <?php
+                }
+            }
+            ?>
+        </table>
+        <div class="paginador">
+            <ul>
+                <li><a href="maquinaria.php" title="Volver al Listado de Maquinarias"><i
+                                class="fas fa-hand-point-left"></i></a></li>
+            </ul>
+        </div>
+
+    </section>
+<?php } ?>
+
+
 <?php include "includes/footer.php"; ?>
 </body>
 </html>

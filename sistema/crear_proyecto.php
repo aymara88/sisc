@@ -64,7 +64,7 @@ include "includes/header.php";
                                     <label class="container">
                                         <input type="checkbox" style="width:10px;" value="1" checked="true"
                                                id="nuevo_proyecto" name="nuevo_proyecto"/>
-                                        <span class="checkmark"></span>
+                                        <span id="checkmark_nuevo_proyecto" class="checkmark"></span>
                                         <label for="nuevo_proyecto" style="font-size: 11pt;margin: -4px 0px 0px 15px;"
                                                id="nuevo_proyecto_text">Nuevo Proyecto</label>
                                     </label>
@@ -76,29 +76,112 @@ include "includes/header.php";
                                        onchange="javascript:this.value=this.value.toUpperCase();" <?php if (isset($code) && $code == 1) {
                                     echo "autofocus";
                                 } ?> />
-                                <select name="nuevo_proyecto_select" id="nuevo_proyecto_select"
-                                        style="display:none;width: 100%;">
-                                    <?php
-                                    $query_proyectos = mysqli_query($conection, "SELECT id_proyecto, nombre_proyecto FROM obras WHERE estatus=1 ORDER BY nombre_proyecto");
-                                    $results_proyectos = mysqli_num_rows($query_proyectos);
-                                    ?>
-                                    <?php
-                                    if ($results_proyectos > 0) {
-                                        ?>
-                                        <option value="0">Seleccione un proyecto</option>
+
+                                <?php if (isset($code) && $code == 8) { ?>
+                                    <select name="nuevo_proyecto_select" id="nuevo_proyecto_select"
+                                            style="width: 100%;">
                                         <?php
-                                        while ($proyecto = mysqli_fetch_array($query_proyectos)) {
+                                        $query_proyectos = mysqli_query($conection, "SELECT id_proyecto, nombre_proyecto FROM obras WHERE estatus=1 ORDER BY id_proyecto DESC");
+                                        $results_proyectos = mysqli_num_rows($query_proyectos);
+                                        ?>
+                                        <?php
+                                        if ($results_proyectos > 0) {
                                             ?>
-                                            <option value="<?php echo $proyecto["id_proyecto"]; ?>"><?php echo $proyecto["nombre_proyecto"] ?></option>
+                                            <?php
+                                            while ($proyecto = mysqli_fetch_array($query_proyectos)) {
+                                                ?>
+                                                <option value="<?php echo $proyecto["id_proyecto"]; ?>" <?php if ($proyecto["nombre_proyecto"] == $nombre_proyecto) echo 'selected="selected" '; ?>><?php echo $proyecto["nombre_proyecto"] ?></option>
+                                                <?php
+                                            }
+                                        } else {
+                                            ?>
+                                            <option value="0">Aún no hay proyectos</option>
                                             <?php
                                         }
-                                    } else {
                                         ?>
-                                        <option value="0">Aún no hay proyectos</option>
+                                    </select>
+                                    <?php
+                                    echo '<script>
+        document.getElementById("nuevo_proyecto").checked = false;
+        document.getElementById("nuevo_proyecto").value = 0;
+        $("#nuevo_proyecto_text").text("Proyecto Existente");
+		$("#nombre").hide();
+		$("#nuevo_proyecto_select").show();
+		
+		setTimeout(function(){ 
+		    document.getElementById("btn-signup").style.display = "none";
+            document.getElementById("btn-update").style.display = "inline";
+            document.getElementById("proyecto_parte_2").style.display = "inline";
+            document.getElementById("btn-load").click();
+		 }, 100);
+		
+		$("#nuevo_proyecto_select option:selected").each(function () {
+
+			id_proyecto = $(this).val();
+
+            $.post({
+
+                method: "post",
+
+                url: "includes/getProyecto.php?id="+id_proyecto,
+
+                data: $(this).serialize(),
+
+                success: function(data)
+
+                {
+
+					$("#costo").val(data.costo);
+
+					$("#duracion").val(data.duracion);
+
+					$("#descripcion").val(data.descripcion);
+
+					$("#cliente").val(data.cliente);
+
+					$("#id_proyecto").val(data.id);
+
+					$("#id_proyecto_subobras").val(data.id);
+
+					$(".id_proyecto").val(data.id);
+
+					$("#btn-load").show();
+
+					$("#btn-delete").show();
+
+					LimpiarSubobras();
+
+                }
+
+            });           
+
+		});
+</script>';
+                                } else { ?>
+                                    <select name="nuevo_proyecto_select" id="nuevo_proyecto_select"
+                                            style="display:none;width: 100%;">
                                         <?php
-                                    }
-                                    ?>
-                                </select>
+                                        $query_proyectos = mysqli_query($conection, "SELECT id_proyecto, nombre_proyecto FROM obras WHERE estatus=1 ORDER BY id_proyecto DESC");
+                                        $results_proyectos = mysqli_num_rows($query_proyectos);
+                                        ?>
+                                        <?php
+                                        if ($results_proyectos > 0) {
+                                            ?>
+                                            <option value="0">Seleccione un proyecto</option>
+                                            <?php
+                                            while ($proyecto = mysqli_fetch_array($query_proyectos)) {
+                                                ?>
+                                                <option value="<?php echo $proyecto["id_proyecto"]; ?>"><?php echo $proyecto["nombre_proyecto"] ?></option>
+                                                <?php
+                                            }
+                                        } else {
+                                            ?>
+                                            <option value="0">Aún no hay proyectos</option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                <?php } ?>
                                 <!--</div>  -->
                             </td>
                             <td>
@@ -222,7 +305,8 @@ include "includes/header.php";
                             <td>
                                 <input type="hidden" name="id_proyecto_subobras" id="id_proyecto_subobras"
                                        class="id_proyecto" value="0"/>
-                                <button type="submit" name="sndBtnSubObras" style="background: none;border: none;"><span
+                                <button id="button_sub_obra_add" type="submit" name="sndBtnSubObras"
+                                        style="background: none;border: none;"><span
                                             class="fa fa-plus-circle fa-3x"
                                             style="cursor:pointer;margin-top: -10px;margin-left: 10px;"
                                             title="Agregar Subobra">&nbsp;</span></button>
@@ -274,6 +358,17 @@ include "includes/header.php";
                                 <div id="subobra_resultado"></div>
                             </td>
                         </tr>
+<?php echo '<script>
+let button_sub_obra_add = document.getElementById("button_sub_obra_add");
+button_sub_obra_add.addEventListener("click",function(event) {
+    if(document.getElementById("subobras_div").style.display == "none"){
+        console.log("aca debo trabajar");
+        setTimeout(function() {
+            document.getElementById("subobras").options.selectedIndex = 1;
+        },100)
+    }
+})
+</script>'; ?>
                     </table>
                 </fieldset>
             </form>
@@ -370,7 +465,8 @@ include "includes/header.php";
                                     <label class="div_display_elemento_mat_lab" for="material" style="font-size:12px">Material</label>
                                 </div>
                                 <div class="display_elemento_mat" id="material_div_select">
-                                    <select class="display_elemento_mat_select" name="material_select1" id="material_select1" style="width: 180px;">
+                                    <select class="display_elemento_mat_select" name="material_select1"
+                                            id="material_select1" style="width: 180px;">
                                         <option value="0">Selecciona una familia.</option>
                                         <?php
                                         $query_mat = mysqli_query($conection, "SELECT * FROM familias WHERE estatus=1 ORDER BY familia");
@@ -392,12 +488,14 @@ include "includes/header.php";
                                     </select>
                                 </div>
                                 <div class="display_elemento_mat" id="material_div_select3">
-                                    <select class="display_elemento_mat_select" name="material_select3" id="material_select3" style="width: 180px;">
+                                    <select class="display_elemento_mat_select" name="material_select3"
+                                            id="material_select3" style="width: 180px;">
                                         <option value="0">Seleccionar unidad de medida</option>
                                     </select>
                                 </div>
                                 <div class="display_elemento_mat" id="material_div_select2">
-                                    <select class="display_elemento_mat_select" name="material_select2" id="material_select2" style="width: 180px;">
+                                    <select class="display_elemento_mat_select" name="material_select2"
+                                            id="material_select2" style="width: 180px;">
                                         <option value="0">Seleccionar un material</option>
                                     </select>
                                 </div>
@@ -610,11 +708,9 @@ include "includes/header.php";
                     </table>
                 </fieldset>
             </form>
-
             <button type="button" name="sndProyectoFinal" class="btn_save_inline" onclick="AsignarProyecto();"><i
                         class="fas fa-project-diagram"></i> Asignar a Proyecto
             </button>
-
         </div>
     </div>
 </section>

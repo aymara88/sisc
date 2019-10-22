@@ -359,8 +359,8 @@ include "includes/header.php";
             <div class="divisor_resp">
                 <label for="numero">Número</label>
                 <input type="text" name="numero" id="numero" maxlength="15" required
-                       pattern="[0-9A-Za-zÀ-ÿ\u00f1\u00d1 ]{1,10}"
-                       title="Introduzca sólo letras o números. Tamaño mínimo: 1. Tamaño máximo: 10"
+                       pattern="[0-9]{1,4}"
+                       title="Introduzca sólo números. Tamaño mínimo: 1. Tamaño máximo: 4"
                        value="<?php echo $data["numero"] ?>" <?php if (isset($code) && $code == 4) {
                     echo "autofocus";
                 } ?> />

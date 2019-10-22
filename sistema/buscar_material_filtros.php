@@ -31,7 +31,7 @@ include "includes/header.php";
     ?>
 
     <br>
-    <h1>Materiales</h1>
+    <h1><i class="far fa-paint-roller fa-lg"></i> Lista de materiales</h1>
     <a href="crear_material.php" class="btn_new"><i class="fas fa-plus-circle"></i> Nuevo material</a>
 
     <form action="buscar_material_filtros.php" method="get" class="form_search">

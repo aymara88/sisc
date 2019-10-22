@@ -138,6 +138,24 @@ if (isset($_POST['btn-signup'])) {
             if ($query_insert) {
                 $alert = "Proveedor creado correctamente!";
                 $code = 12;
+
+                //vaciar formulario
+                $option_tipo_persona = "";
+                $option_municipio = "";
+                $option_estado = "";
+                $option_localidad = "";
+                $razon_social = "";
+                $tipo_persona = "";
+                $rfc = "";
+                $id_localidad = "";
+                $colonia = "";
+                $calle = "";
+                $numero = "";
+                $codigo_postal = "";
+                $telefono = "";
+                $email = "";
+                $website = "";
+
             } else {
                 $alert = "Error al crear proveedor!";
                 $code = 13;
@@ -259,11 +277,12 @@ include "includes/header.php";
                 $query_tipo_persona = mysqli_query($conection, "SELECT * FROM tipo_persona");
                 $result_tipo_persona = mysqli_num_rows($query_tipo_persona);
                 ?>
-                <select name="tipo_persona" id="tipo_persona" class="<?php if (isset($option_tipo_persona)) {
-                    echo "noMostrarPrimerItem";
-                } else {
-                    echo '';
-                } ?>">
+                <select name="tipo_persona" id="tipo_persona"
+                        class="<?php if (isset($option_tipo_persona) && !empty($option_tipo_persona)) {
+                            echo "noMostrarPrimerItem";
+                        } else {
+                            echo '';
+                        } ?>">
                     <?php
                     echo $option_tipo_persona;
                     if ($result_tipo_persona > 0) {
@@ -325,8 +344,8 @@ include "includes/header.php";
             <div class="divisor_resp">
                 <label for="numero">Número</label>
                 <input type="text" name="numero" id="numero" maxlength="10" required
-                       pattern="[0-9A-Za-zÀ-ÿ\u00f1\u00d1 ]{1,10}"
-                       title="Introduzca sólo letras o números. Tamaño mínimo: 1. Tamaño máximo: 10" <?php if (isset($code) && $code == 4) {
+                       pattern="[0-9]{1,4}"
+                       title="Introduzca sólo números. Tamaño mínimo: 1. Tamaño máximo: 4" <?php if (isset($code) && $code == 4) {
                     echo "autofocus";
                 } ?> value="<?php if (isset($numero) && isset($code) && $code !== 4) {
                     echo $numero;
@@ -459,8 +478,94 @@ include "includes/header.php";
             </button>
         </form>
     </div>
-
 </section>
+
+<?php
+if (isset($code) && $code == 12) {
+    ?>
+    <section id="container" style="padding: 0">
+        <br>
+        <h1><i class="fas fa-id-card fa-lg"></i> Lista de Proveedores</h1>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Razon Social</th>
+                <th>Tipo de Persona</th>
+                <th>RFC</th>
+                <th>Calle</th>
+                <th>Número</th>
+                <th>Colonia</th>
+                <th>Código Postal</th>
+                <!--<th>ID Localidad</th>  -->
+                <th>Teléfono</th>
+                <th>Correo Electrónico</th>
+                <th>Página Web</th>
+                <th>Acciones</th>
+            </tr>
+
+            <?php
+            include "conexion.php";
+            //paginador
+            $por_pagina = 8;
+            if (empty($_GET['pagina'])) {
+                $pagina = 1;
+            } else {
+                $pagina = $_GET['pagina'];
+            }
+            $desde = ($pagina - 1) * $por_pagina;
+            $id_usuario = (int)$_SESSION['id_usuario'];
+            $query = mysqli_query($conection, "SELECT * FROM proveedores WHERE estatus=1 ORDER BY id_proveedor DESC LIMIT $desde,$por_pagina");
+            $result = mysqli_num_rows($query);
+
+            if ($result > 0) {
+                while ($data = mysqli_fetch_array($query)) {
+                    $data['id_tipo_persona'] = (int)$data['id_tipo_persona'];
+                    $tipo_personaq = mysqli_query($conection, "SELECT tipo_persona FROM tipo_persona WHERE id_tipo_persona = '{$data['id_tipo_persona']}' LIMIT 1");
+                    $tipo_personar = mysqli_fetch_assoc($tipo_personaq);
+                    $data['tipo_persona'] = $tipo_personar['tipo_persona'];
+                    if (empty($data['tipo_persona']))
+                        $data['tipo_persona'] = "FISICA";
+
+                    ?>
+                    <tr>
+                        <td><?php echo $data["id_proveedor"]; ?></td>
+                        <td><?php echo $data["razon_social"]; ?></td>
+                        <td><?php echo $data['tipo_persona']; ?></td>
+                        <td><?php echo $data["rfc"]; ?></td>
+                        <td><?php echo $data["calle"]; ?></td>
+                        <td><?php echo $data["numero"]; ?></td>
+                        <td><?php echo $data["colonia"]; ?></td>
+                        <td><?php echo $data["cp"]; ?></td>
+
+                        <td><?php echo $data["telefono"]; ?></td>
+                        <td><?php echo $data["mail"]; ?></td>
+                        <td><?php echo $data["pagina_web"]; ?></td>
+                        <td>
+                            <a class="link_edit" style="display:block;padding: 5px 0px 0px 5px;font-size: 11px;"
+                               href="editar_proveedor.php?id=<?php echo $data["id_proveedor"]; ?>"><i
+                                        class="fas fa-user-edit"></i> Editar</a>
+                            <a class="link_eliminar" style="display:block;padding: 5px 0px 0px 5px;font-size: 11px;"
+                               href="eliminar_confirmar_proveedor.php?id=<?php echo $data["id_proveedor"]; ?>"><i
+                                        class="fas fa-trash"></i> Eliminar</a>
+                        </td>
+                    </tr>
+                    <?php
+                }
+            }
+            ?>
+        </table>
+
+        <div class="paginador">
+            <ul>
+                <li><a href="lista_proveedores.php" title="Volver al Listado de Proveedores"><i
+                                class="fas fa-hand-point-left"></i></a></li>
+            </ul>
+        </div>
+
+    </section>
+<?php } ?>
+
 <?php include "includes/footer.php"; ?>
 </body>
 </html>

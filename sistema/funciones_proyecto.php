@@ -2,6 +2,8 @@
 function get_post_data(){
 	include "conexion.php";	
 	global $alert;
+	global $code; // to made work code variable
+    global $nombre_proyecto;
     if(isset($_POST['btn-signup'])){
 		if($_GET['action'] == 'nuevo_proyecto'){
 			$alert='';
@@ -43,6 +45,7 @@ function get_post_data(){
 						 
 						$alert="Proyecto creado correctamente!";
 						$code = 8;
+						$nombre_proyecto = $nombre;
 					}else{
 						$alert = "Error al crear proyecto!";
 						$code = 9;
