@@ -66,7 +66,7 @@ if(isset($_GET['id']) && isset($_GET['subobra']))
 				$template = "<table border=\"0\" width=\"100%\" id=\"mano_obras\">
 		<tr>
 			<td>ID</td>
-			<td>Código</td>
+			<td>Descripción</td>
 			<td>Duración</td>
 			<td>Costo</td>
 			<td>Acciones</td>

@@ -194,7 +194,7 @@ function get_post_data(){
 						$template = "<table border=\"0\" width=\"100%\" id=\"maquinaria\">
 				<tr>
 					<td>ID</td>
-					<td>Código</td>
+					<td>Descripción</td>
 					<td>Tiempo de Uso</td>
 					<td>Costo</td>
 					<td>Acciones</td>
@@ -296,7 +296,7 @@ function get_post_data(){
 							$template = "<table border=\"0\" width=\"100%\" id=\"materiales\">
 					<tr>
 						<td>ID</td>
-						<td>Código</td>
+						<td>Descripción</td>
 						<td>Duración</td>
 						<td>Costo</td>
 						<td>Acciones</td>
@@ -385,7 +385,7 @@ function get_post_data(){
 							$template = "<table border=\"0\" width=\"100%\" id=\"mano_obras\">
 					<tr>
 						<td>ID</td>
-						<td>Código</td>
+						<td>Descripción</td>
 						<td>Duración</td>
 						<td>Costo</td>
 						<td>Acciones</td>
@@ -468,7 +468,7 @@ function get_post_data(){
 						$template = "<table border=\"0\" width=\"100%\" id=\"herramientas\">
 					<tr>
 						<td>ID</td>
-						<td>Código</td>
+						<td>Descripción</td>
 						<td>Duración</td>
 						<td>Costo</td>
 						<td>Acciones</td>

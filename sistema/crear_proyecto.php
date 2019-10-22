@@ -362,9 +362,9 @@ include "includes/header.php";
 let button_sub_obra_add = document.getElementById("button_sub_obra_add");
 button_sub_obra_add.addEventListener("click",function(event) {
     if(document.getElementById("subobras_div").style.display == "none"){
-        console.log("aca debo trabajar");
         setTimeout(function() {
             document.getElementById("subobras").options.selectedIndex = 1;
+            document.getElementById("subobras_control2").checked = true;
         },100)
     }
 })
