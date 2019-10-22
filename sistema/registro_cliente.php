@@ -323,7 +323,7 @@ include "includes/header.php";
             <div class="divisor_resp">
                 <label for="nombre">Nombre o Razón Social</label>
                 <input type="text" name="nombre" id="nombre" maxlength="50" required
-                       pattern="[A-Za-z ]{10,60}"
+                       pattern="[A-Za-z ñÑ À-ú]{10,60}"
                        title="Introduzca sólo letras. Tamaño mínimo: 10. Tamaño máximo: 60"
                        onchange="javascript:this.value=this.value.toUpperCase();" <?php if (isset($code) && $code == 2) {
                     echo "autofocus";
@@ -486,7 +486,7 @@ if (isset($code) && $code == 13) {
         <table>
             <tr>
                 <th>ID</th>
-                <th>Nombre(s)</th>
+                <th>Nombre o Razón Social</th>
                 <th>Tipo Persona</th>
                 <th>RFC Cliente</th>
                 <th>Domicilio</th>

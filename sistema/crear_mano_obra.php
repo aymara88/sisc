@@ -95,9 +95,10 @@ include "includes/header.php";
         <form action="" method="post" name="miForm">
             <div class="divisor_resp">
                 <label for="codigo">Código</label>
+                <!--el pattern aca me permite acentos letras numeros signos de + y -, y ademas la letra ñ-->
                 <input type="text" name="codigo" id="codigo" maxlength="30" required
-                       pattern="[0-9A-Za-zÀ-ÿ\u00f1\u00d1 ]{2,30}"
-                       title="Introduzca sólo letras o números. Tamaño mínimo: 2. Tamaño máximo: 30"
+                       pattern="[ A-Za-z0-9ñÑÀ-ú_./+-]{2,30}"
+                       title="Introduzca su Código. Tamaño mínimo: 2. Tamaño máximo: 30"
                        onchange="javascript:this.value=this.value.toUpperCase();" <?php if (isset($code) && $code == 1) {
                     echo "autofocus";
                 } ?>
@@ -107,7 +108,7 @@ include "includes/header.php";
             <div class="divisor_resp">
                 <label for="descripcion">Descripción</label>
                 <input type="text" name="descripcion" id="descripcion" maxlength="100" required
-                       pattern="[0-9A-Za-zÀ-ÿ\u00f1\u00d1 ]{2,100}"
+                       pattern="[ A-Za-z0-9ñÑÀ-ú_.)(/+-]{2,100}""
                        title="Introduzca sólo letras o números. Tamaño mínimo: 2. Tamaño máximo: 100"
                        onchange="javascript:this.value=this.value.toUpperCase();" <?php if (isset($code) && $code == 2) {
                     echo "autofocus";
@@ -168,9 +169,8 @@ include "includes/header.php";
 
             <div class="divisor_resp">
                 <label for="costo">Costo</label>
-                <input type="number" name="costo" id="costo" required maxlength="9"
-                       step="0.01" min="0" pattern="^\d+(?:\.\d{1,2})?$"
-                       oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                <input type="number" name="costo" id="costo" required min="0.01" max="999999.99"
+                       step="0.01" pattern="^\d+(?:\.\d{1,2})?$"
                        title="Introduzca el precio del producto. Solo numeros."
                     <?php if (isset($code) && $code == 3) {
                         echo "autofocus";

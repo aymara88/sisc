@@ -94,7 +94,7 @@ if ($resultm > 0) {
                 <div class="divisor_resp">
                     <label for="descripcion">Descripción</label>
                     <input type="text" name="descripcion" id="descripcion" maxlength="100" required
-                           pattern="[0-9A-Za-zÀ-ÿ\u00f1\u00d1 ]{2,100}"
+                           pattern="[A-Za-z0-9 ñÑ À-ú]{2,100}"
                            title="Introduzca sólo letras o números. Tamaño mínimo: 2. Tamaño máximo: 100"
                            value="<?php echo $resultm['descripcion_herramienta'] ?>"
                            onchange="javascript:this.value=this.value.toUpperCase();" <?php if (isset($code) && $code == 2) {
@@ -152,11 +152,9 @@ if ($resultm > 0) {
 
                 <div class="divisor_resp">
                     <label for="costo">Costo</label>
-                    <input type="number" name="costo" id="costo" required maxlength="9"
-                           step="0.01" min="0" pattern="^\d+(?:\.\d{1,2})?$"
-                           oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                           title="Introduzca el precio del producto. Solo numeros."
-                           value="<?php echo $resultm['costo_herramienta'] ?>"
+                    <input type="number" name="costo" id="costo" required min="0.01" max="999999.99"
+                           step="0.01" pattern="^\d+(?:\.\d{1,2})?$"
+                           title="Introduzca el precio del producto. Solo numeros." value="<?php echo $resultm['costo_herramienta'] ?>"
                         <?php if (isset($code) && $code == 3) {
                             echo "autofocus";
                         } ?> />

@@ -199,14 +199,14 @@ if ($result_sql == 0) {
             <div class="divisor_resp">
                 <label for="nombre">Nombre</label>
                 <input type="text" name="nombre" id="nombre" value="<?php echo $nombre; ?>" maxlength="70" required
-                       pattern="[A-Za-z ]{2,50}" title="Introduzca sólo letras. Tamaño mínimo: 2. Tamaño máximo: 50"
+                       pattern="[A-Za-z ñÑ À-ú]{2,50}" title="Introduzca sólo letras. Tamaño mínimo: 2. Tamaño máximo: 50"
                        autofocus onchange="javascript:this.value=this.value.toUpperCase();">
             </div>
 
             <div class="divisor_resp">
                 <label for="apellido_paterno">Apellido Paterno </label>
                 <input type="text" name="apaterno" id="apaterno" value="<?php echo $apaterno; ?>" maxlength="40"
-                       required pattern="[A-Za-z ]{2,40}"
+                       required pattern="[A-Za-z ñÑ À-ú]{2,40}"
                        title="Introduzca sólo letras. Tamaño mínimo: 2. Tamaño máximo: 40"
                        onchange="javascript:this.value=this.value.toUpperCase();">
             </div>
@@ -214,7 +214,7 @@ if ($result_sql == 0) {
             <div class="divisor_resp">
                 <label for="apellido_materno">Apellido Materno </label>
                 <input type="text" name="amaterno" id="amaterno" value="<?php echo $amaterno; ?>" maxlength="40"
-                       required pattern="[A-Za-z ]{2,40}"
+                       required pattern="[A-Za-z ñÑ À-ú]{2,40}"
                        title="Introduzca sólo letras. Tamaño mínimo: 2. Tamaño máximo: 40"
                        onchange="javascript:this.value=this.value.toUpperCase();">
             </div>

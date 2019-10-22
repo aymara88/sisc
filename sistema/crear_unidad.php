@@ -132,6 +132,7 @@ if (isset($code) && $code == 4) {
                 <th>ID</th>
                 <th>Abreviatura Unidad</th>
                 <th>Descripción</th>
+                <th>Tipo de Insumo</th>
                 <th>Acciones</th>
             </tr>
 
@@ -145,7 +146,7 @@ if (isset($code) && $code == 4) {
                 $pagina = $_GET['pagina'];
             }
             $desde = ($pagina - 1) * $por_pagina;
-            $query = mysqli_query($conection, "SELECT * FROM unidades WHERE estatus=1
+            $query = mysqli_query($conection, "SELECT * FROM unidades INNER JOIN tipoinsumo ON tipoinsumo.id_tipo_insumo = unidades.tipo_insumo WHERE estatus=1
 				ORDER BY id_unidad DESC LIMIT $desde,$por_pagina");
             //mysqli_close($conection);
             $result = mysqli_num_rows($query);
@@ -157,6 +158,7 @@ if (isset($code) && $code == 4) {
                         <td><?php echo $data["id_unidad"]; ?></td>
                         <td><?php echo $data["abreviatura_unidad"]; ?></td>
                         <td><?php echo $data["descripcion"]; ?></td>
+                        <td><?php echo $data["descripcion_tipo_insumo"]; ?></td>
                         <td>
                             <a class="link_edit" href="editar_unidad.php?id=<?php echo (int)$data["id_unidad"]; ?>"><i
                                         class="fas fa-user-edit"></i> Editar</a>

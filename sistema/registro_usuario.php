@@ -171,7 +171,7 @@ include "includes/header.php";
 
             <div class="divisor_resp">
                 <label for="nombre">Nombre</label>
-                <input type="text" name="nombre" id="nombre" maxlength="50" required pattern="[A-Za-z ]{2,50}"
+                <input type="text" name="nombre" id="nombre" maxlength="50" required pattern="[A-Za-z ñÑ À-ú]{2,50}"
                        title="Introduzca sólo letras. Tamaño mínimo: 2. Tamaño máximo: 50"
                        onchange="javascript:this.value=this.value.toUpperCase();" <?php if (isset($code) && $code == 1) {
                     echo "autofocus";
@@ -184,7 +184,7 @@ include "includes/header.php";
 
             <div class="divisor_resp">
                 <label for="apellidop">Apellido Paterno</label>
-                <input type="text" name="apaterno" id="apaterno" maxlength="40" required pattern="[A-Za-z ]{2,40}"
+                <input type="text" name="apaterno" id="apaterno" maxlength="40" required pattern="[A-Za-z ñÑ À-ú]{2,40}"
                        title="Introduzca sólo letras. Tamaño mínimo: 2. Tamaño máximo: 40"
                        onchange="javascript:this.value=this.value.toUpperCase();" <?php if (isset($code) && $code == 2) {
                     echo "autofocus";
@@ -197,7 +197,7 @@ include "includes/header.php";
 
             <div class="divisor_resp">
                 <label for="apellidom">Apellido Materno</label>
-                <input type="text" name="amaterno" id="amaterno" maxlength="40" required pattern="[A-Za-z ]{2,40}"
+                <input type="text" name="amaterno" id="amaterno" maxlength="40" required pattern="[A-Za-z ñÑ À-ú]{2,40}"
                        title="Introduzca sólo letras. Tamaño mínimo: 2. Tamaño máximo: 40"
                        onchange="javascript:this.value=this.value.toUpperCase();" <?php if (isset($code) && $code == 3) {
                     echo "autofocus";

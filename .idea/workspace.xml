@@ -3,27 +3,23 @@
   <component name="ChangeListManager">
     <list default="true" id="2eac92a6-6b3d-4570-9997-d19db6e145a4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sistema/buscar_material_filtros.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/buscar_material_filtros.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sistema/crear_familia.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/crear_familia.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sistema/crear_herramientas.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/crear_herramientas.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sistema/crear_mano_obra.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/crear_mano_obra.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sistema/crear_maquinaria.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/crear_maquinaria.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sistema/crear_material.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/crear_material.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sistema/crear_proyecto.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/crear_proyecto.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sistema/crear_unidad.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/crear_unidad.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sistema/editar_familia.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/editar_familia.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistema/editar_cliente.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/editar_cliente.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sistema/editar_herramientas.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/editar_herramientas.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sistema/editar_mano_obra.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/editar_mano_obra.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sistema/editar_maquinaria.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/editar_maquinaria.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sistema/editar_material.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/editar_material.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sistema/editar_proveedor.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/editar_proveedor.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sistema/editar_unidad.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/editar_unidad.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sistema/funciones_proyecto.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/funciones_proyecto.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sistema/includes/getSubObras.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/includes/getSubObras.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sistema/js/funciones.js" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/js/funciones.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sistema/js/proyecto.js" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/js/proyecto.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistema/editar_usuario.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/editar_usuario.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistema/lista_clientes.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/lista_clientes.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sistema/registro_cliente.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/registro_cliente.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sistema/registro_proveedor.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/registro_proveedor.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistema/registro_usuario.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/registro_usuario.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistema/unidades.php" beforeDir="false" afterPath="$PROJECT_DIR$/sistema/unidades.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -79,7 +75,8 @@
       <workItem from="1571348248671" duration="24341000" />
       <workItem from="1571412815738" duration="29279000" />
       <workItem from="1571505693624" duration="23727000" />
-      <workItem from="1571672917045" duration="28485000" />
+      <workItem from="1571672917045" duration="30897000" />
+      <workItem from="1571758698910" duration="3728000" />
     </task>
     <servers />
   </component>

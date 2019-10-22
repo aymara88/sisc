@@ -27,7 +27,8 @@ require_once "includes/verifica_sesion.php";
 			<tr>
 				<th>ID</th>
 				<th>Abreviatura Unidad</th>
-				<th>Descripción</th>
+                <th>Descripción</th>
+                <th>Tipo de Insumo</th>
 				<th>Acciones</th>
 			</tr>
 			
@@ -49,7 +50,7 @@ require_once "includes/verifica_sesion.php";
                 $desde = ($pagina - 1) * $por_pagina;
                 $total_paginas = ceil($total_registro / $por_pagina);
             
-				$query = mysqli_query($conection,"SELECT * FROM unidades WHERE estatus=1
+				$query = mysqli_query($conection,"SELECT * FROM unidades INNER JOIN tipoinsumo ON tipoinsumo.id_tipo_insumo = unidades.tipo_insumo WHERE estatus=1
 				ORDER BY id_unidad ASC LIMIT $desde,$por_pagina");	
  
 				//mysqli_close($conection);
@@ -63,6 +64,7 @@ require_once "includes/verifica_sesion.php";
                             <td><?php echo $data["id_unidad"]; ?></td>
                             <td><?php echo $data["abreviatura_unidad"]; ?></td>
                             <td><?php echo $data["descripcion"]; ?></td>
+                            <td><?php echo $data["descripcion_tipo_insumo"]; ?></td>
                             <td>
                                 <a class="link_edit" href="editar_unidad.php?id=<?php echo (int)$data["id_unidad"];?>"><i class="fas fa-user-edit"></i> Editar</a>
                                 |

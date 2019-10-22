@@ -256,9 +256,8 @@ include "includes/header.php";
 
             <div class="divisor_resp">
                 <label for="costo">Costo</label>
-                <input type="number" name="costo" id="costo" required maxlength="9"
-                       step="0.01" min="0" pattern="^\d+(?:\.\d{1,2})?$"
-                       oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                <input type="number" name="costo" id="costo" required min="0.01" max="999999.99"
+                       step="0.01" pattern="^\d+(?:\.\d{1,2})?$"
                        title="Introduzca el precio del producto. Solo numeros."
                        value="<?php echo $costo_material ?>"
                     <?php if (isset($code) && $code == 3) {

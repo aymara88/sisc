@@ -300,7 +300,7 @@ if ($result_sql == 0) {
             <div class="divisor_resp">
                 <label for="nombre">Nombre o razon social</label>
                 <input type="text" name="nombre" id="nombre" value="<?php echo $nombre_cliente; ?>" maxlength="50"
-                       required pattern="[A-Za-z ]{10,60}"
+                       required pattern="[A-Za-z ñÑ À-ú]{10,60}"
                        title="Introduzca sólo letras. Tamaño mínimo: 10. Tamaño máximo: 60"
                        onchange="javascript:this.value=this.value.toUpperCase();" <?php if (isset($code) && $code == 2) {
                     echo "autofocus";

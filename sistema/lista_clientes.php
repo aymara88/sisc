@@ -27,7 +27,7 @@ require_once "includes/verifica_sesion.php";
 		<table>
 			<tr>
 				<th>ID</th>
-				<th>Nombre(s)</th>
+				<th>Nombre o Razón Social</th>
 				<th>Tipo Persona</th>
 				<th>RFC Cliente</th>
 				<th>Domicilio</th>

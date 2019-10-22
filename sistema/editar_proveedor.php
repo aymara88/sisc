@@ -337,7 +337,7 @@ include "includes/header.php";
             <div class="divisor_resp">
                 <label for="razon_social">Razón Social</label>
                 <input type="text" name="razon_social" id="razon_social" maxlength="120" required
-                       pattern="[0-9A-Za-zÀ-ÿ\u00f1\u00d1 ]{10,120}"
+                       pattern="[A-Za-z0-9 ñÑ À-ú]{10,120}"
                        title="Introduzca sólo letras o números. Tamaño mínimo: 10. Tamaño máximo: 120"
                        value="<?php echo $data["razon_social"] ?>" autofocus
                        onchange="javascript:this.value=this.value.toUpperCase();" <?php if (isset($code) && $code == 1) {
